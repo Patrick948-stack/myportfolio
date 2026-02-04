@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patrick Portfolio Website</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/ecabec06f6.js" crossorigin="anonymous"></script>
+</head>
+
+
+<body>
+    <div id="header">
+        <div class="container">
+            <nav>
+                <img src="images/logo.png" class="logo">
+                <ul id="sidemenu">
+                    <li> <a href="#header">Home</a></li>
+                    <li> <a href="#about">About</a></li>
+                    <li> <a href="#services">Services</a></li>
+                    <li> <a href="#portfolio">Portfolio</a></li>
+                    <li> <a href="#contact">Contact</a></li>
+                    <i class="fa-solid fa-xmark" onclick="closemenu()"></i>
+                </ul>
+                <i class="fa-solid fa-bars" onclick="openmenu()"></i>
+
+            </nav>
+            <div class="header-text">
+                <p>ML Researcher, <br> Frontend & DataVis Dev</p>
+                <h1>Hi, I'm <span>Patrick, </span><br>Exploring Web Development, Data Visualisation, and
+                    Machine Learning. </h1>
+            </div>
+        </div>
+    </div>
+    <!-----------------------about ----------------------->
+
+    <div id="about">
+        <div class="container">
+            <div class="row">
+                <div class="about-col-1">
+                    <img src="images/user.png">
+                </div>
+                <div class="about-col-2">
+                    <h1 class="sub-title">About Me</h1>
+                    <p>
+                        My name is Patrick, and I’m passionate about technology. Ever since I was introduced to coding,
+                        I’ve been exploring areas ranging from data visualization to machine learning. What I love most
+                        about computer science is the sense of creative and problem-solving empowerment it offers—the
+                        feeling that, with enough discipline and curiosity, you can build almost anything by learning
+                        the right skills.
+                    </p>
+
+                    <p>
+                        My background includes coursework in computer science at Whitman College—including Introduction
+                        to
+                        Computational Problem Solving, Data Structures and Algorithms, Discrete Mathematics, and
+                        Computer Systems Fundamentals (upcoming)—along with additional training through Frontend
+                        Masters’ Complete Intro to Web Development v3 and FreeCodeCamp’s JavaScript curriculum. Beyond
+                        coursework, I work as a Student Data Visualizer in Whitman’s Immersive Stories Lab and as an
+                        undergraduate researcher in the CS Department, where I study racial bias in machine learning
+                        image-captioning models.
+                    </p>
+                    <p>
+                        I am also actively involved in student leadership as a board member and
+                        marketing director of Whitman’s Association for Computing Machinery chapter and as Secretary of
+                        the Society for Advancement of Chicanos/Hispanics & Native Americans in Science (SACNAS). I also
+                        won second place at Whitman’s Spring 2025 Hackathon with the Whitman AI project, an AI chatbot
+                        specifically trained to answer questions about Whitman College, from food menu available for the
+                        day to registration requirements for any given major.
+                    </p>
+
+                    <div class="tab-titles">
+                        <p class="tab-links active-link" onclick="opentab('skills')">Skills</p>
+                        <p class="tab-links" onclick="opentab('experience')">Experience</p>
+                        <p class="tab-links" onclick="opentab('education')">Education</p>
+                    </div>
+                    <div class="tab-contents active-tab" id="skills">
+                        <ul>
+                            <li>
+                                <span>JavaScript</span><br>
+                                Interactive web development, data-driven interfaces, DOM manipulation, Plotly.js
+                            </li>
+
+                            <li>
+                                <span>Frontend Development</span><br>
+                                Building responsive, user-centered web applications with HTML, CSS, and JavaScript
+                            </li>
+
+                            <li>
+                                <span>Data Visualization</span><br>
+                                Creating 2D and 3D visualizations from CSV datasets using Plotly.js and Matplotlib
+                            </li>
+
+                            <li>
+                                <span>Python Programming</span><br>
+                                Data processing, matplotlib visualization, and modular program design
+                            </li>
+
+                            <li>
+                                <span>Web Development</span><br>
+                                Developing clean, semantic, and accessible web applications
+                            </li>
+
+                            <li>
+                                <span>Git & GitHub</span><br>
+                                Version control, collaboration, and project portfolio management
+                            </li>
+
+                            <li>
+                                <span>Research & Data Analysis</span><br>
+                                Dataset collection, literature review, and structured empirical analysis
+                            </li>
+
+                            <li>
+                                <span>Technical Communication</span><br>
+                                Explaining complex technical concepts through clear visuals and documentation
+                            </li>
+
+                        </ul>
+                    </div>
+
+                    <div class="tab-contents" id="experience">
+                        <ul>
+                            <li class="container">
+                                <span>Nov 2025 – Dec 2025</span><br>
+                                <strong>Student Data Visualizer — <em>Whitman College Immersive Stories
+                                        Lab.</em></strong>
+                                <p>Researched and curated real-world CSV datasets (climate change, Mount Everest, Mount
+                                    Kilimanjaro) and developed
+                                    interactive 2D and 3D data visualizations using JavaScript and Plotly.js.
+                                    Climate-change
+                                    visualizations were selected for future deployment in a CAVE (Cave Automatic Virtual
+                                    Environment) for immersive data storytelling.</p>
+                            </li>
+
+                            <li class="container">
+                                <span>Sept 2025 – Present</span><br>
+                                <strong>Undergraduate Research Assistant — <em>AI Racial Bias in Image
+                                        Captioning.</em></strong>
+                                <p>Conducting literature reviews on algorithmic bias and computer vision, learning and
+                                    applying
+                                    machine-learning techniques, and assisting in the design of an empirical study
+                                    evaluating racial bias in image-captioning models.</p>
+                            </li>
+
+                            <li class="container">
+                                <span>May 2025</span><br>
+                                <strong>Whitman AI — <em>Whitman College Hackathon.</em></strong>
+                                <p>Built the front-end interface using HTML, CSS, and JavaScript and curated
+                                    Whitman-specific datasets to support a campus chatbot project
+                                    that earned 2nd place in Hackathon for concept complexity and execution.</p>
+                            </li>
+
+                            <li class="container">
+                                <span>May 2025</span><br>
+                                <strong>GPA Visualizer — <em>Introduction to Computational Problem Solving Final
+                                        Project.</em></strong>
+                                <p>Designed a Python-based GPA visualization tool
+                                    using Matplotlib to generate dynamic charts from user input and created an optional
+                                    personalized GPA certificate using Turtle graphics.</p>
+                            </li>
+
+                            <li class="container">
+                                <span>Sept 2025 – Present</span><br>
+                                <strong>Board Member — <em>Association for Computing Machinery (ACM), Whitman
+                                        College.</em></strong>
+                                <p>Organized professional-development sessions on GitHub, project portfolios, and résumé
+                                    building,
+                                    and created marketing materials to increase student engagement and event attendance.
+                                </p>
+                            </li>
+
+                            <li class="container">
+                                <span>Dec 2024 – Present</span><br>
+                                <strong> Secretary & Marketing Director — <em>SACNAS Whitman Chapter.</em></strong>
+
+                                <p>Designed posters and
+                                    promotional materials to increase student access to resources supporting diversity
+                                    in
+                                    STEM; co-organized drop-ins, tabling events, and workshops on conference funding,
+                                    graduate school admissions, and undergraduate research; provided résumé and
+                                    application-material reviews to club members.</p>
+                            </li>
+
+                            <li class="container">
+                                <span>Sept 2022 – Present</span><br>
+                                <strong>Academic Tutor — <em>United World College Tz & Whitman Academic Resource
+                                        Center.</em></strong>
+                                <p>Delivered individualized
+                                    tutoring in high school and all level College French courses, as well as Calculus
+                                    I–III, and Computer Science, supporting students
+                                    through
+                                    clear explanations, structured practice, and exam preparation.</p>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    <div class="tab-contents" id="education">
+                        <ul>
+                            <li><span>May 2024</span><br><strong>United World College (UWC) East Africa</strong>, Arusha
+                                Campus,
+                                Tanzania <em>IB
+                                    Diploma</em>
+                            </li>
+                            <li><span><strong>May 2028</span><br>Whitman College</strong>, Walla Walla, WA USA <em>
+                                    Bachelor of
+                                    Arts In Computer
+                                    Science and
+                                    Physics Pre-engineering</em>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-----------------services---------------------->
+    <div id="services">
+        <div class="container">
+            <h1 class="sub-title">My Services</h1>
+            <div class="services-list">
+                <div>
+                    <i class="fa-solid fa-code"></i>
+                    <h2>Frontend Development</h2>
+                    <p>I built responsive and user-friendly web interfaces using HTML, CSS, and Javascript (currently
+                        learning React), with a focus on usability, clarity, and intuitive navigation. </p>
+                    <a href="https://github.com/Patrick948-stack?tab=repositories">Learn more</a>
+                </div>
+                <div>
+                    <i class="fa-solid fa-crop-simple"></i>
+                    <h2>Data Visualisation</h2>
+                    <p>I turn raw datasets into clear and engaging 2D and 3D visualisations using Javascript plotly.js
+                        and Python matplotlib to help people make sense of complex information.</p>
+                    <a href="https://github.com/Patrick948-stack?tab=repositories">Learn more</a>
+                </div>
+                <div>
+                    <i class="fa-brands fa-app-store"></i>
+                    <h2>Research and Prototyping</h2>
+                    <p>I analyze scientific litterature about machine learning, and design research methods to
+                        investigate algorithmic bias.</p>
+                    <!--<a href="#">Learn more</a>-->
+                </div>
+
+            </div>
+        </div>
+
+        <!----------------portfolio---------------->
+        <div id="portfolio">
+            <div class="container">
+                <h1 class="sub-title">My Work</h1>
+                <div class="work-list">
+                    <div class="work">
+                        <img src="images/work-1.png">
+                        <div class="layer">
+                            <h3>GPA Visualizer & Certificate Generator</h3>
+                            <p>A two-part interactive Python program that helps students understand their semester
+                                performance. It generates Matplotlib pie and bar charts showing each course’s
+                                contribution to the overall GPA. The project also creates a personalized GPA certificate
+                                using Python’s Turtle graphics.</p>
+                            <a href="https://github.com/Patrick948-stack/GPA-Visualizer-Certificate-Generator-Python-"><i
+                                    class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        </div>
+                    </div>
+                    <div class="work">
+                        <img src="images/work-2.png">
+                        <div class="layer">
+                            <h3>3D Elevation plot of mount Everest</h3>
+                            <p>An application of plotly.js that demonstrates Javascript's incredible ability to make 3D
+                                maps. Based on CSV elevation data, I created a 3D map of Mount Everest.</p>
+                            <a
+                                href="https://github.com/Patrick948-stack/-3D-Elevation-Plot-Mount-Kilimanjaro-JavaScript-Plotly.js-"><i
+                                    class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        </div>
+                    </div>
+                    <div class="work">
+                        <img src="images/work-3.png">
+                        <div class="layer">
+                            <h3>Analysing Racial Bias in Machine Learning Image Captioning Models</h3>
+                            <p>A Research Study conducted under the supervision of Whitman Professor Sacchintha Pitigala
+                                where I analyze racial bias in post-gpt image captioning machine learning models.</p>
+                            <a href="#"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <a href="https://github.com/Patrick948-stack" class="btn">See more</a>
+
+            </div>
+        </div>
+    </div>
+    <!--- -----------------contact------------- ---->
+    <div id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="contact-left">
+                    <h1 class="sub-title">Contact Me</h1>
+                    <p><i class="fa-solid fa-paper-plane"></i>patrickmulikuza948@gmail.com</p>
+                    <p><i class="fa-solid fa-square-phone"></i>+1 509 360 4942</p>
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/profile.php?id=61571321560223"><i
+                                class="fa-brands fa-facebook"></i></a>
+                        <a href=""><i class="fa-brands fa-twitter-square"></i></a>
+                        <a href="https://www.instagram.com/patrickmuliks/"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/mulikuzap/"><i class="fa-brands fa-linkedinf"></i></a>
+                    </div>
+                    <a href="images/my-cv.pdf" download class="btn btn2">Download CV</a>
+                </div>
+
+                <div class="contact-right">
+                    <form name="submit-to-google-sheet">
+                        <input type="text" name="Name" placeholder="Your Name" required>
+                        <input type="email" name="email" placeholder="Your Email" required>
+                        <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
+                        <button type="submit" class="btn btn2">Submit</button>
+                    </form>
+                    <span id="msg"></span>
+                </div>
+            </div>
+
+        </div>
+        <div class="copyright">
+            <p>Copyright @ MMP. Made with <i class="fa-solid fa-heart"></i> by Patrick Mulikuza </p>
+        </div>
+    </div>
+
+    <script>
+        var tablinks = document.getElementsByClassName("tab-links");
+        var tabcontents = document.getElementsByClassName("tab-contents");
+
+        function opentab(tabname) {
+            for (tablink of tablinks) {
+                tablink.classList.remove("active-link");
+            }
+            for (tabcontent of tabcontents) {
+                tabcontent.classList.remove("active-tab");
+            }
+            event.currentTarget.classList.add("active-link");
+            document.getElementById(tabname).classList.add("active-tab")
+
+        }
+    </script>
+    <script>
+        var sidemenu = document.getElementById("sidemenu");
+
+        function openmenu() {
+            sidemenu.style.right = "0";
+        }
+        function closemenu() {
+            sidemenu.style.right = "-200px";
+        }
+    </script>
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyAxbxsOu8NKw-7QD5vxQBaMKRfV8ptcC6RhQnu0Is82n9XbQ67ECIqEEduaehVRCVGCA/exec'
+        const form = document.forms['submit-to-google-sheet']
+        const msg = document.getElementById("msg")
+
+        form.addEventListener('submit', e => {
+            e.preventDefault()
+            fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+                .then(response => {
+                    msg.innerHTML = "Message sent successfully"
+                    setTimeout(function () {
+                        msg.innerHTML = ""
+                    }, 5000)
+                    form.reset()
+                })
+                .catch(error => console.error('Error!', error.message))
+        })
+    </script>
+
+
+</body>
+
+</html>

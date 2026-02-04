@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../Data Visualization/Personal portfolio"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Personal portfolio"
+	}
+}
