@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Patrick Mulikuza — Personal Portfolio
 
-## Getting Started
+My personal corner of the internet. A Next.js 16 site covering what I've been working on — frontend projects, data visualizations, hardware experiments, research in ML and physics, and personal writing — with a self-service admin panel so I can update any of it without touching code.
 
-First, run the development server:
+## What's inside
+
+- **Hero, About, Services, Portfolio, Contact** — editable from `/admin`, backed by Postgres. Change a headline, add an Experience entry, upload a new project thumbnail, all live, no redeploy.
+- **Personal Writing** — a rich-text article editor (Tiptap) at `/admin/writing`, plus support for simple link-out cards to articles hosted elsewhere. The section disappears entirely from the site when there are no published articles.
+- **Research & Writing** — academic and personal papers, available to read as PDFs. Kept static and outside the CMS on purpose.
+- **A 3D Everest elevation map, a WebGL hero scene, and generative UI sound** — Plotly, Three.js, and the Web Audio API, all lazy-loaded so they don't cost anything until they're actually on screen.
+
+## Stack
+
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · Framer Motion · PostgreSQL (via `pg`) · Zod · Tiptap · Vercel Blob · Vitest + React Testing Library
+
+See [`MASTER_TECH_GUIDE.md`](./MASTER_TECH_GUIDE.md) for a from-scratch, section-by-section walkthrough of every technology in this repo and why it's used the way it is.
+
+## Getting started
 
 ```bash
+npm install
+cp .env.example .env.local   # fill in DATABASE_URL, SESSION_SECRET, ADMIN_PASSWORD_HASH, BLOB_READ_WRITE_TOKEN
+npm run hash-password -- "your-chosen-password"   # paste the printed line into .env.local
+npm run db:migrate            # creates the database tables
+npm run db:seed-content       # seeds Hero/About/Services/Portfolio/Contact/Writing with their current content
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then visit `http://localhost:3000` for the site, or `http://localhost:3000/admin` to log in and edit it.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Start the dev server |
+| `npm run build` | Production build |
+| `npm run start` | Run the production build |
+| `npm run lint` | ESLint |
+| `npm test` | Run the test suite once |
+| `npm run test:watch` | Run tests in watch mode |
+| `npm run db:migrate` | Apply any new SQL files in `db/migrations/` |
+| `npm run db:seed-content` | Seed `site_content` rows that don't exist yet (safe to re-run) |
+| `npm run hash-password -- "..."` | Print a bcrypt hash formatted for `.env.local` |
 
-## Learn More
+## Project structure
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+app/            Routes — the public site, the blog, and the /admin CMS
+components/     UI components; components/admin/ is the CMS-only editor UI
+lib/            Data access, auth/session, and validation — no React in here
+content/blog/   Legacy Markdown blog posts (new writing goes through /admin instead)
+data/           Research & Writing papers — the one section still a static array
+db/migrations/  Plain, ordered .sql files
+scripts/        One-off Node scripts (migrate, seed, password hashing)
+tests/          Vitest + React Testing Library, mirroring the source layout
+```
