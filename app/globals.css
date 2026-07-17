@@ -1,0 +1,84 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme inline {
+  --color-background: #0a0b0d;
+  --color-foreground: #ffffff;
+  --color-muted: #ababab;
+  --color-surface: #262626;
+  --color-accent: #ff004f;
+  --font-sans: var(--font-newsreader);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #ffffff;
+}
+
+/* Thin, restrained scrollbar that only accents on hover — kept subtle by
+   default so it doesn't compete with the accent color's use for CTAs. */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+* {
+  scrollbar-color: var(--color-surface) var(--color-background);
+  scrollbar-width: thin;
+}
+
+.hero-bg {
+  background-image: url("/images/background.png");
+  background-size: cover;
+  background-position: center;
+}
+
+@media (max-width: 767px) {
+  .hero-bg {
+    background-image: url("/images/phone-background.png");
+  }
+}
+
+/* Custom cursor: hide the native cursor once CustomCursor.tsx confirms a
+   fine-pointer, motion-tolerant device and takes over. Text fields keep a
+   normal text caret since a dot cursor there would hurt usability. */
+.custom-cursor-active,
+.custom-cursor-active a,
+.custom-cursor-active button {
+  cursor: none;
+}
+.custom-cursor-active input,
+.custom-cursor-active textarea {
+  cursor: text;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
