@@ -8,6 +8,7 @@ import type {
   ContactContent,
   WritingSectionContent,
   Project,
+  ComingNextProject,
 } from "@/types";
 
 function parseJsonArray<T>(formData: FormData, name: string): T[] {
@@ -91,4 +92,16 @@ export async function updateWritingSectionAction(formData: FormData): Promise<vo
     subtitle: String(formData.get("subtitle") ?? ""),
   };
   await updateSiteContent("writing", content);
+}
+
+export async function updateComingNextAction(formData: FormData): Promise<void> {
+  const items = parseJsonArray<ComingNextProject>(formData, "items").map((item) => ({
+    ...item,
+    id: item.id?.trim() ? item.id : slugify(item.name) || crypto.randomUUID(),
+    todos: item.todos.map((todo) => ({
+      ...todo,
+      id: todo.id?.trim() ? todo.id : crypto.randomUUID(),
+    })),
+  }));
+  await updateSiteContent("comingNext", { items });
 }

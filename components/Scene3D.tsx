@@ -36,7 +36,7 @@ export default function Scene3D() {
       const wireframe = new THREE.Mesh(
         new THREE.IcosahedronGeometry(2, 1),
         new THREE.MeshBasicMaterial({
-          color: 0xff004f,
+          color: '#D3D3D3',
           wireframe: true,
           transparent: true,
           opacity: 0.55,

@@ -19,6 +19,7 @@ const navLinks: NavLink[] = [
   { label: "About", href: "#about" },
   { label: "Services", href: "#services" },
   { label: "Portfolio", href: "#portfolio" },
+  { label: "Coming Next", href: "#coming-next" },
   { label: "Research", href: "#research" },
   { label: "Blog", href: "/blog", isRoute: true },
   { label: "Contact", href: "#contact" },

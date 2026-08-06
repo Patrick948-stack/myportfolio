@@ -146,6 +146,26 @@ export interface WritingSectionContent {
   subtitle: string;
 }
 
+export interface ComingNextTodo {
+  id: string;
+  text: string;
+  done: boolean;
+}
+
+export interface ComingNextProject {
+  id: string;
+  name: string;
+  image?: string;
+  needBehind: string;
+  description: string;
+  techStack: string[];
+  todos: ComingNextTodo[];
+}
+
+export interface ComingNextContent {
+  items: ComingNextProject[];
+}
+
 export interface SiteContentMap {
   hero: HeroContent;
   about: AboutContent;
@@ -153,6 +173,7 @@ export interface SiteContentMap {
   portfolio: PortfolioContent;
   contact: ContactContent;
   writing: WritingSectionContent;
+  comingNext: ComingNextContent;
 }
 
 export type SiteContentKey = keyof SiteContentMap;

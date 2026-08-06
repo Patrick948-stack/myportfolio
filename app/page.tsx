@@ -2,6 +2,7 @@ import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Services from "@/components/Services";
 import Portfolio from "@/components/Portfolio";
+import ComingNext from "@/components/ComingNext";
 import DataVizShowcase from "@/components/DataVizShowcase";
 import Research from "@/components/Research";
 import LatestPosts from "@/components/blog/LatestPosts";
@@ -13,11 +14,12 @@ import { getSiteContent } from "@/lib/site-content";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const [hero, about, services, portfolio, contact] = await Promise.all([
+  const [hero, about, services, portfolio, comingNext, contact] = await Promise.all([
     getSiteContent("hero"),
     getSiteContent("about"),
     getSiteContent("services"),
     getSiteContent("portfolio"),
+    getSiteContent("comingNext"),
     getSiteContent("contact"),
   ]);
 
@@ -27,6 +29,7 @@ export default async function Home() {
       <About content={about} />
       <Services content={services} />
       <Portfolio content={portfolio} />
+      <ComingNext content={comingNext} />
       <DataVizShowcase />
       <Research />
       <LatestPosts />

@@ -38,6 +38,20 @@ const serviceItemSchema = z.object({
   ctaHref: z.string(),
 });
 const socialLinkSchema = z.object({ label: z.string(), href: z.string() });
+const comingNextTodoSchema = z.object({
+  id: z.string(),
+  text: z.string(),
+  done: z.boolean(),
+});
+const comingNextProjectSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  image: z.string().optional(),
+  needBehind: z.string(),
+  description: z.string(),
+  techStack: z.array(z.string()),
+  todos: z.array(comingNextTodoSchema),
+});
 
 const schemas: { [K in SiteContentKey]: z.ZodType<SiteContentMap[K]> } = {
   hero: z.object({
@@ -64,6 +78,7 @@ const schemas: { [K in SiteContentKey]: z.ZodType<SiteContentMap[K]> } = {
     title: z.string(),
     subtitle: z.string(),
   }),
+  comingNext: z.object({ items: z.array(comingNextProjectSchema) }),
 };
 
 interface SiteContentRow<K extends SiteContentKey> {
@@ -81,6 +96,7 @@ const EMPTY_DEFAULTS: SiteContentMap = {
   portfolio: { items: [] },
   contact: { email: "", phone: "", social: [] },
   writing: { title: "Latest Writing", subtitle: "" },
+  comingNext: { items: [] },
 };
 
 export async function getSiteContent<K extends SiteContentKey>(

@@ -27,6 +27,11 @@ const sections = [
     description: "Project cards in the My Work section.",
   },
   {
+    href: "/admin/coming-next",
+    title: "Coming Next",
+    description: "Upcoming project cards, their plans, and progress.",
+  },
+  {
     href: "/admin/contact",
     title: "Contact",
     description: "Email, phone, and social links.",

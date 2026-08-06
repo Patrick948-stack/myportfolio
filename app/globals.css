@@ -56,6 +56,15 @@ body {
   }
 }
 
+@keyframes coming-next-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 /* Custom cursor: hide the native cursor once CustomCursor.tsx confirms a
    fine-pointer, motion-tolerant device and takes over. Text fields keep a
    normal text caret since a dot cursor there would hurt usability. */

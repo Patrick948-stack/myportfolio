@@ -38,19 +38,23 @@ SiteChrome.tsx  (Section 15) decides, per-request, whether to show the
         ▼
 This site now has TWO route families, each its own app/**/page.tsx:
   • The PUBLIC site — "/" (Hero → About → Services → Portfolio →
-    DataVizShowcase → Research → LatestPosts → Contact), "/blog" (post
-    listing), "/blog/[slug]" (one post). All of Home's sections except
-    Research/DataVizShowcase now read their content from Postgres at
-    request time (Section 15) instead of being hardcoded or imported from
-    a data file — "/" is intentionally NOT statically generated anymore
-    (`export const dynamic = "force-dynamic"` in app/page.tsx) because it
-    depends on live, editable database rows.
+    ComingNext → DataVizShowcase → Research → LatestPosts → Contact),
+    "/blog" (post listing), "/blog/[slug]" (one post). All of Home's
+    sections except Research/DataVizShowcase now read their content from
+    Postgres at request time (Section 15) instead of being hardcoded or
+    imported from a data file — "/" is intentionally NOT statically
+    generated anymore (`export const dynamic = "force-dynamic"` in
+    app/page.tsx) because it depends on live, editable database rows.
+    ComingNext is the one section that also disappears from the page
+    entirely (returns null, no empty heading left behind) whenever its
+    admin-managed project list is empty — every other section always
+    renders its heading even with no items.
   • The ADMIN CMS — "/admin" (a hub), "/admin/writing" (+ /new, /[id]/edit:
     the article editor), "/admin/hero", "/admin/about", "/admin/services",
-    "/admin/portfolio", "/admin/contact" (one editable form per homepage
-    section), "/admin/login", and one API Route Handler,
-    "/api/admin/upload" (image uploads). Every one of these is
-    authenticated — Section 15 covers exactly how.
+    "/admin/portfolio", "/admin/coming-next", "/admin/contact" (one
+    editable form per homepage section), "/admin/login", and one API
+    Route Handler, "/api/admin/upload" (image uploads). Every one of
+    these is authenticated — Section 15 covers exactly how.
         │
         ▼
 Each component is either:
@@ -58,10 +62,10 @@ Each component is either:
   • a Client Component ("use client") — rendered on server AND re-hydrated with
     JS in the browser so it can respond to clicks, state, effects, etc.
     (Every interactive component added in this project's redesign — Navbar,
-    Hero, About, Services, Portfolio, Research, Contact, CustomCursor,
-    CommandPalette, SoundProvider, and every admin form — is a Client
-    Component for exactly this reason: they all need hooks, event handlers,
-    or browser-only APIs. The pages that FETCH data — app/page.tsx,
+    Hero, About, Services, Portfolio, ComingNext, Research, Contact,
+    CustomCursor, CommandPalette, SoundProvider, and every admin form — is a
+    Client Component for exactly this reason: they all need hooks, event
+    handlers, or browser-only APIs. The pages that FETCH data — app/page.tsx,
     app/blog/page.tsx, every app/admin/**/page.tsx — are Server Components;
     they query the database directly and hand the result down as props to
     Client Components for the interactive part.)
@@ -1014,7 +1018,7 @@ In this project, Framer Motion powers *every* piece of motion added during the i
 6. **`useTransform`** — maps one motion value's numeric range onto another (e.g., "as scroll progress goes 0→1, let this element's `y` go from `0%` to `35%`"). `components/Hero.tsx:17-20`.
 7. **`useScroll`** — tracks scroll progress, either for the whole page or relative to a specific element via a `target` ref. `components/Hero.tsx:12-15` (element-relative), `components/Navbar.tsx:23` (page-wide).
 8. **`useMotionValueEvent`** — subscribes to a motion value's changes with a plain callback, without forcing a re-render on every single update (only when you explicitly call `setState` inside the callback, and only as often as you choose to). `components/Navbar.tsx:25-27`.
-9. **`AnimatePresence` + `exit`** — the only way to animate a component **out** before React removes it from the DOM; plain React unmounts synchronously with no chance to animate. `components/CommandPalette.tsx:198-268`, `components/Contact.tsx` (submit button state morphing), `components/About.tsx` (tab content crossfade).
+9. **`AnimatePresence` + `exit`** — the only way to animate a component **out** before React removes it from the DOM; plain React unmounts synchronously with no chance to animate. `components/CommandPalette.tsx:198-268`, `components/Contact.tsx` (submit button state morphing), `components/About.tsx` (tab content crossfade), `components/ComingNext.tsx` (the hover-triggered project detail panel — mounted/unmounted based on which card's `id` a debounced `open`/`scheduleClose` pair currently holds in state, not a raw boolean, so the panel always knows *which* project to render on its way out too).
 10. **`layoutId`** — Framer Motion's "shared element transition" primitive: give two *different* elements (rendered at different times) the same `layoutId`, and when one replaces the other, Framer Motion animates a single visual element smoothly between their two positions/sizes instead of an abrupt swap. `components/Navbar.tsx:79-83` (the sliding active-link underline), `components/About.tsx` (the sliding tab underline).
 11. **`whileInView` + `viewport`** — scroll-triggered reveal animation, built on `IntersectionObserver` under the hood. `components/Reveal.tsx:17-18`.
 
@@ -1627,14 +1631,14 @@ Everything through Section 14 describes a **static site with one file-based exce
 
 **Analogy:** Sections 1–14 describe a house where every renovation requires the architect to redraw the blueprints and rebuild the whole house (a redeploy). This section adds a door with a lock (**auth**), a room behind it where the homeowner can genuinely move furniture around without calling the architect (a **database** + an **admin UI**), a rule that anything brought into the house gets inspected at the door first (**validation**), and a proper request form for "move the couch" instead of the homeowner personally lifting drywall (a **Server Action**, instead of the homeowner reaching directly into raw files).
 
-In this project, that's `lib/db.ts` + `db/migrations/*.sql` (Postgres), `lib/session.ts` + `lib/auth.ts` + `proxy.ts` (auth), `app/admin/actions.ts` + `app/admin/site-actions.ts` (Server Actions), and `lib/articles.ts` + `lib/site-content.ts`'s Zod schemas (validation) — four concerns, each with its own file(s), each reusable across both CMS features this project has (the Personal Writing articles, and the six editable homepage/section settings: Hero/About/Services/Portfolio/Contact/Writing — the last one just a title and subtitle, proof this pattern scales down to something tiny just as well as it scales up to a repeatable list of projects).
+In this project, that's `lib/db.ts` + `db/migrations/*.sql` (Postgres), `lib/session.ts` + `lib/auth.ts` + `proxy.ts` (auth), `app/admin/actions.ts` + `app/admin/site-actions.ts` (Server Actions), and `lib/articles.ts` + `lib/site-content.ts`'s Zod schemas (validation) — four concerns, each with its own file(s), each reusable across both CMS features this project has (the Personal Writing articles, and the seven editable homepage/section settings: Hero/About/Services/Portfolio/Coming Next/Contact/Writing — the last one just a title and subtitle, proof this pattern scales down to something tiny just as well as it scales up to Coming Next's repeatable list of projects, each one itself holding a *second*, nested repeatable list — its plan checklist).
 
 ### 15.2 Zero-to-Hero Conceptual Architecture
 
 1. **Relational databases & Postgres** — a database is a program (running elsewhere — Neon, in this project's case) that stores structured data in **tables** (rows and columns) and guarantees it survives independently of your app's own process restarting or redeploying. Postgres is one specific, extremely widely used open-source database engine. `db/migrations/001_articles.sql` and `002_site_content.sql` define this project's only two tables.
 2. **SQL** — the query language nearly every relational database (including Postgres) speaks: `select`, `insert`, `update`, `delete`, expressed as text. This project writes plain SQL directly (no ORM) via the `pg` package. `lib/db.ts`, `lib/articles.ts`, `lib/site-content.ts`.
 3. **Parameterized queries (`$1`, `$2`, ...)** — passing user-controlled values as separate arguments the database driver escapes itself, rather than concatenating them into the SQL string. This is the single most important defense against **SQL injection** (Section 15.4). Every query in this project uses this form.
-4. **JSONB columns** — Postgres can store an entire JSON document in one column (`data jsonb`) and still let SQL query into it, instead of forcing every field into its own rigid column. `site_content`'s one table backing six differently-shaped sections (Hero, About, Services, Portfolio, Contact, and the Writing section's own title/subtitle) leans entirely on this — adding "Writing" cost one new Zod schema entry and one new admin form, not a new table or migration.
+4. **JSONB columns** — Postgres can store an entire JSON document in one column (`data jsonb`) and still let SQL query into it, instead of forcing every field into its own rigid column. `site_content`'s one table backing seven differently-shaped sections (Hero, About, Services, Portfolio, Coming Next, Contact, and the Writing section's own title/subtitle) leans entirely on this — adding "Writing" cost one new Zod schema entry and one new admin form, not a new table or migration, and adding "Coming Next" later cost the same again despite each project row nesting a whole second array of objects (`todos: { id, text, done }[]`) *inside* the top-level `items` array — a JSON document can nest arbitrarily deep in one column; a table-per-field relational design would have needed a second table and a foreign key just for the checklist.
 5. **Migrations as plain, ordered `.sql` files** — instead of a schema-migration framework, `db/migrations/001_*.sql`/`002_*.sql` are just SQL run once, in filename order, by a tiny custom script (`scripts/migrate.mjs`). `create table if not exists` makes re-running them harmless.
 6. **Environment variables & secrets (`.env.local`, `process.env`)** — configuration (a database connection string, a signing secret) that must differ between machines/deployments and must **never** be committed to Git. Next.js loads `.env.local` automatically for the app itself; standalone scripts (`scripts/migrate.mjs`) load it manually via `@next/env`'s `loadEnvConfig`.
 7. **Runtime validation with Zod** — TypeScript's types (Section 2) vanish at runtime and can't check data that crossed a network/database boundary; Zod is a library that defines the *same kind* of shape, but as a real, callable, runtime check — `schema.parse(data)` throws if `data` doesn't match. `lib/site-content.ts`.
@@ -1743,6 +1747,7 @@ export async function updateSiteContent<K extends SiteContentKey>(
 - **Why `bcryptjs` specifically, and why hashing (not encryption).** Encryption is reversible (given the right key, you get the original data back) — completely wrong for a password, because it means *something*, somewhere, can always recover the plaintext. Hashing is deliberately **one-way**: `bcrypt.hash(password, 10)` produces a value there is no operation to reverse. Logging in doesn't decrypt anything; `bcrypt.compare(attempt, storedHash)` re-hashes the *attempt* (using the same salt embedded in `storedHash` itself) and checks whether the two hashes match. The `10` is a **cost factor** — bcrypt is deliberately, tunably *slow* (unlike a fast hash like SHA-256, built for speed elsewhere), specifically so that if a database of hashes were ever stolen, guessing millions of candidate passwords per second against it is computationally expensive rather than nearly free.
 - **How a Server Action actually reaches the server.** Writing `<form action={createArticleAction}>` (Section 15.3-adjacent, `app/admin/actions.ts`) looks like it skips the network entirely, but it doesn't: Next.js's build step detects the `"use server"` directive, generates a real, unguessable POST endpoint for that function, and rewrites the client-side reference to it into "submit this form's data to that endpoint, then apply whatever the server's response says changed." The `<form>` still genuinely submits over HTTP; what's gone is the boilerplate of hand-declaring a Route Handler, writing your own `fetch` call, and manually wiring up loading/error state for the common case — you get all of that generated, while retaining a real server round-trip underneath, which is exactly why `verifySession()` inside the action itself is non-negotiable (Section 15.2 concept 12): the browser genuinely sent a real network request that anyone could have sent instead, not a trusted local function call.
 - **Why images live outside both the database and the app server's own disk.** A database is optimized for rows and structured queries, not multi-megabyte binary blobs — storing images there bloats backups, slows ordinary queries, and wastes an expensive resource on cheap storage. The app server's own local disk is worse for this project's actual hosting model: serverless platforms routinely run each request (or each deploy) on a fresh, ephemeral filesystem, so a file saved to local disk in one request may simply not exist by the next one. `lib/blob.ts` uploads to Vercel Blob (a dedicated object-storage service, conceptually the same idea as Amazon S3) and only the resulting **URL** — a plain string — gets saved into the `cover_image`/`image` columns, which is why those columns are typed `text`, not some special "image" database type.
+- **A derived value is a bug waiting to happen the moment you store it redundantly.** Coming Next's progress bar (`% complete` on each project card) is *never itself written to `site_content`* — there is no `progress` field anywhere in `ComingNextProject`'s type or Zod schema. Both `components/admin/ComingNextForm.tsx` and `components/ComingNext.tsx` independently compute it the same way, on every render: `todos.filter(t => t.done).length / todos.length`. The alternative — storing a `progress: number` alongside `todos` and updating it whenever a checkbox toggles — introduces a second source of truth that can silently drift from the first (check three boxes by hand in two different admin sessions and forget to also bump a stored percentage, and the bar now lies). Deriving it fresh from `todos` every time makes that entire category of bug structurally impossible: there is only ever one fact (which steps are checked), and the percentage is arithmetic on that fact, not a fact of its own.
 
 ### 15.5 Hands-On Drills
 
@@ -1756,6 +1761,82 @@ export async function updateSiteContent<K extends SiteContentKey>(
 2. **Forgetting that `.env.local` is only read once, at server startup.** Editing `.env.local` while `next dev` is already running has no effect on that running process — Node.js read environment variables into `process.env` when it started and has no built-in mechanism to notice the file changed underneath it. The fix is always a full stop (`Ctrl+C`) and restart of `npm run dev`, not a page refresh.
 3. **Assuming the root layout's global providers apply everywhere the same way.** Early in this CMS's build-out, `/admin` visibly rendered the *public* site's `<Navbar/>`/`<CustomCursor/>`/`<CommandPalette/>` stacked on top of its own admin header — because `app/layout.tsx` (Section 5) wraps **every** route, including `/admin/**`, and those components were mounted directly in the root layout with no awareness that an admin section even existed. The fix, `components/SiteChrome.tsx` (Section 0's Big Picture diagram), is a small client component that checks `usePathname()` and conditionally skips the public chrome entirely on `/admin` routes — the lesson generalizes: anything placed directly in the root layout applies to literally every route below it, including ones added later that the original author of that layout code never had in mind.
 4. **Trusting `psql` (or any system tool) is installed just because a script assumes it.** This project's first draft of `db:migrate` shelled out to the `psql` command-line client directly — which works on a machine that happens to have Postgres's client tools installed, and fails with a bare `command not found` on one that doesn't (a very common state for a laptop that's never needed a local Postgres install). The more robust fix, applied in `scripts/migrate.mjs`: do the migration in Node using the same `pg` package (`lib/db.ts`) the app itself already depends on, so the only requirement is "Node.js and this project's own `npm install`" — nothing extra, invisible, and machine-specific.
+
+## 16. Vercel & Deployment — From Git Push to Production
+
+### 16.1 The Jargon-Free Mental Model
+
+Every section before this one describes code that runs *somewhere*, but never actually says where, or how it got there. `npm run dev` runs the app on your own laptop, using files and environment variables that live only on your own laptop. **Deployment** is the separate, genuinely different problem of taking that same code and running it on a computer you don't own, that the whole internet can reach, twenty-four hours a day, without your laptop needing to be on. Vercel (built by the same company that builds Next.js) is this project's **hosting platform**: it watches this repository's GitHub remote, and every time new commits arrive, it rebuilds the app from scratch on its own infrastructure and serves the result.
+
+**Analogy:** Sections 1–15 describe building a house entirely inside a workshop you own — you can see every beam, touch every wire, and if something's wrong you're standing right next to it. Deployment is shipping that house to a plot of land you've never visited, where it gets reassembled by a crew that only has the blueprints (your Git history) and a short list of things you told them in advance (environment variables) — nothing you didn't explicitly hand over makes the trip, including anything that only ever lived in a file on your own machine that you forgot to also tell the crew about.
+
+In this project, that's `vercel.json`-free zero-config deployment (Next.js is detected automatically), the **Vercel dashboard** (or the `vercel` CLI) for configuring per-environment secrets, and — directly relevant to Section 15's CMS — the fact that `DATABASE_URL`, `SESSION_SECRET`, `ADMIN_PASSWORD_HASH`, and `BLOB_READ_WRITE_TOKEN` all have to be told to Vercel *separately* from `.env.local`, because `.env.local` is gitignored (Section 15.2 concept 6) and therefore, by design, never leaves your machine at all.
+
+### 16.2 Zero-to-Hero Conceptual Architecture
+
+1. **Git-integrated continuous deployment** — Vercel is connected directly to this repo's GitHub remote. A push to `main` triggers a **Production** deployment; a push to any other branch (or opening a PR) triggers a **Preview** deployment — a fully working, separately-URLed copy of the app for that exact branch, so changes can be reviewed live before they ever reach the real domain.
+2. **Build time vs. runtime — two different moments, two different failure modes.** The **build** (`next build`) happens once per deployment, compiling and type-checking the app into deployable output. **Runtime** happens on every single incoming request afterward, executing that compiled output live. A build can succeed perfectly and the site can still be broken, if the failure only happens at runtime — which is exactly what "Ready" build status *and* a broken homepage at the same time means (Section 16.6 below is this project's own real example).
+3. **Serverless Functions** — dynamic routes (anything not pre-rendered to static HTML, Section 5) don't run on one long-lived server process; each request spins up a short-lived function instance, runs the code, returns a response, and may be torn down. This is *why* Section 15.4's point about ephemeral disk is true, and why `global.__pgPool` in `lib/db.ts` (Section 15) is written to tolerate being re-initialized across cold starts rather than assuming it persists forever.
+4. **Environment variables are per-project, per-environment, and set separately from `.env.local`.** Vercel stores its own copy of each variable, scoped independently to **Production**, **Preview**, and **Development**, configured via the dashboard (Settings → Environment Variables) or the `vercel env add <NAME> <environment>` CLI command. Nothing in `.env.local` is ever read by Vercel's build or runtime — it is purely a local-machine convenience file.
+5. **Deployments are immutable; env var changes need a new one.** Setting or changing an environment variable in the dashboard does **not** retroactively affect deployments that already exist and are already serving traffic — it only takes effect on the *next* deployment. This project hit this directly: adding the missing env vars didn't fix the live site until a fresh `vercel deploy --prod` actually ran.
+6. **Domains and aliases** — every deployment gets a unique, permanent URL (e.g. `myportfolio-hroqqaxtp-....vercel.app`); the human-friendly **Production alias** (`myportfolio-phi-six-16.vercel.app` in this project, or a custom domain) always points at whichever deployment was *most recently promoted to Production* — it's a pointer, not a fixed thing.
+7. **The Vercel CLI** — `vercel link` connects a local checkout to a specific Vercel project; `vercel env ls/add/rm` manages environment variables from the terminal instead of the dashboard; `vercel deploy --prod` triggers a Production deployment directly (the same thing a `git push` to `main` would trigger); `vercel logs <deployment-url>` streams that deployment's real runtime logs — the single most important debugging tool once a deployed page is broken and the browser only shows a generic error.
+8. **The build log and the runtime log are different logs, showing different failures.** The build log (visible on the Deployment Details page) only shows what happened during `next build` — a broken build shows up there. A page that builds fine but crashes when someone actually visits it shows up only in the **runtime function log** (`vercel logs`, or Dashboard → Logs), never the build log — conflating the two is a very fast way to declare "the build succeeded so it must be fine" while the live site is actively down.
+
+### 16.3 Syntax & Code Deconstruction
+
+**Snippet A — linking a local checkout and inspecting configured environment variables:**
+
+```bash
+npx vercel link --yes --project myportfolio
+npx vercel env ls production
+```
+
+- `vercel link` — writes a small `.vercel/project.json` (gitignored, machine-specific) recording *which* Vercel project this local folder corresponds to, so every subsequent `vercel` command knows where to point without asking each time.
+- `vercel env ls production` — lists variable *names* and which environments they're scoped to, deliberately **never** printing values back to the terminal — Vercel treats every environment variable as a secret by default (shown as "Encrypted" in the dashboard too), whether or not its actual content is sensitive.
+
+**Snippet B — adding an environment variable from the terminal, exactly as done for this project:**
+
+```bash
+printf '%s' "$DATABASE_URL_VALUE" | npx vercel env add DATABASE_URL production
+```
+
+- `printf '%s' "$VALUE"` — deliberately used instead of `echo`, because `echo` would append a trailing newline that becomes *part of the stored value* — a single invisible extra character at the end of a secret that can be just as hard to diagnose as the leading-space bug in 16.6 below.
+- `| npx vercel env add DATABASE_URL production` — piping the value in as stdin (rather than typing it into the interactive prompt) lets this be scripted and repeated identically across `production`, `preview`, and `development` without retyping a secret by hand three times, reducing the chance of a copy-paste mistake between environments.
+
+**Snippet C — the code that actually revealed this project's real deployment bug (`lib/db.ts`, Section 15):**
+
+```ts
+function createPool(): Pool {
+  const connectionString = process.env.DATABASE_URL;
+  if (!connectionString) {
+    throw new Error("DATABASE_URL is not set.");
+  }
+  return new Pool({ connectionString, /* ... */ });
+}
+```
+
+- This function has exactly one guard: "is the variable present at all." It does **not** validate that the value is well-formed — reasonably so, since validating every possible malformed connection string is `pg`'s job, not this project's — but that means a *present-but-malformed* value (Section 16.6) produces no error here at all; the failure only surfaces one layer deeper, inside `pg-connection-string`'s own parsing, with a much less obvious error message.
+
+### 16.4 Under the Hood (Master Level)
+
+- **Why the build succeeded while the live site was completely broken.** `app/page.tsx` (Section 15) is marked `export const dynamic = "force-dynamic"` specifically *because* it depends on `DATABASE_URL` at request time — the comment directly above it says so: *"this route can't be statically prerendered at build time (no DATABASE_URL then)."* That's precisely why `next build` never touches the database and therefore never notices a missing or broken `DATABASE_URL` — the failure is structurally invisible until a real request hits a real serverless function instance in production.
+- **Why the browser only shows a generic error, on purpose.** A production server returning the *actual* exception message (a stack trace, a database hostname, an internal file path) to any random visitor would leak implementation details to the public internet — Next.js and Vercel deliberately collapse an unhandled server-side exception into a generic "server error" page for anyone but the developer. The real message only exists in the runtime log, reachable with `vercel logs <deployment-url>` — treating the blank browser error as "no information" instead of "wrong place to look" is the single most common way this class of bug wastes time.
+- **The exact failure mode this project hit, mechanically.** `pg`'s `Pool` doesn't parse connection strings itself — it delegates to the `pg-connection-string` package, which checks whether the string starts with the literal prefix `postgres://` or `postgresql://` to decide whether to parse it as a URL at all. `.env.local` in this project actually contained `DATABASE_URL= postgresql://...` — note the space *after* the `=`. Next.js's own env-file loader (`dotenv`, used for `.env.local`) trims that whitespace automatically, so `next dev` on a laptop always worked and hid the problem completely. But when that same raw line was parsed with a plain shell one-liner (`cut -d'=' -f2-`) to copy the value up to Vercel, the leading space came along for the ride unnoticed. `" postgresql://..."` no longer starts with `postgres`, so `pg-connection-string` silently falls back to its keyword=value parsing mode instead of URL mode — and because no `host=` keyword was present in that fallback mode, it defaulted to the library's own hard-coded default hostname, the literal string `"base"`. The resulting runtime error, `getaddrinfo ENOTFOUND base`, describes a hostname that appears nowhere in this project's actual database URL — which is exactly why it was confusing until read at the `pg-connection-string` source level rather than guessed at from the outside.
+- **The fix, and the general lesson.** The concrete fix was trimming the value before pushing it to Vercel (`"${raw#"${raw%%[![:space:]]*}"}"` — a portable Bash idiom for "strip leading whitespace" — then re-adding the variable). The general lesson generalizes past this one bug: **any tool that "just works" locally is quietly doing cleanup you didn't ask for and won't be there the moment you bypass that tool** (here, `dotenv`'s automatic trimming). The fix for *this class* of bug is always the same: verify the exact bytes actually stored (Drill 2 below), don't assume a value survived a manual copy unchanged just because it looks right on screen.
+
+### 16.5 Hands-On Drills
+
+- **Drill 1 (easy):** Run `npx vercel env ls production` against this project and confirm all four expected variables (`DATABASE_URL`, `SESSION_SECRET`, `ADMIN_PASSWORD_HASH`, `BLOB_READ_WRITE_TOKEN`) are listed for Production. Then deliberately add a fifth, throwaway variable (`vercel env add SCRATCH_TEST production`, any value), confirm it shows up, then remove it (`vercel env rm SCRATCH_TEST production`) — the smallest possible loop for "how do I even check what Vercel currently knows."
+- **Drill 2 (medium):** Reproduce Section 16.4's actual bug, safely, entirely locally: run `node -e 'const {parse}=require("pg-connection-string"); console.log(parse(" postgresql://user:pass@example.com/db"))'` and read the `host` field in the output. Then run it again *without* the leading space and compare. This is the single fastest way to internalize "a value that looks identical when you eyeball it can parse completely differently" — the exact gap that made this bug invisible until the runtime logs were actually read.
+- **Drill 3 (hard):** Trigger a real Preview deployment: create a new branch, make a trivial visible change (e.g. edit `Hero` copy), push it, and find the resulting Preview URL (via `vercel ls` or the GitHub PR check). Confirm it has its **own** copy of the Preview-scoped environment variables (Section 16.2 concept 4) by checking that a CMS-backed page loads correctly there too — then delete the branch once you're done. This exercises the full "Preview deployments are real, independently-configured environments, not just a preview of static HTML" idea from 16.2.
+
+### 16.6 Common Student Gotchas
+
+1. **The leading-space env var bug — this project's own history, in full.** Covered mechanically in 16.4; the *behavioral* lesson is what to remember: this bug produced a **build that succeeded**, a **deployment marked "Ready"**, and a **browser error with zero useful detail** — every signal a beginner instinctively checks first said "this should be working." The only place the real cause was visible was `vercel logs`, which most people don't think to check until *after* ruling out the build and the code. The habit to build instead: the moment a deployed page misbehaves but `next build` succeeded, go straight to runtime logs before re-reading any source code — the bug is almost never in code that a successful build already type-checked and compiled.
+2. **Assuming a new environment variable applies retroactively.** Adding or fixing a variable in the dashboard changes nothing about deployments already running — Section 16.2 concept 5. The fix is always a fresh deployment (`vercel deploy --prod`, or an empty `git commit --allow-empty && git push` to re-trigger CI), never just "wait and refresh."
+3. **Confusing the unique deployment URL with the stable production alias.** Every single deployment (including old ones and every Preview) gets its own permanent, unique URL that never changes and never gets reused. The stable, human-facing domain (`myportfolio-phi-six-16.vercel.app` here) is a separate **alias** that gets *repointed* at a new deployment's unique URL each time something is promoted to Production — bookmarking a specific deployment's unique URL and expecting it to always show "whatever's currently live" is a category error; that's what the alias is for.
+4. **Treating `.env.local`'s existence as equivalent to "Vercel has this."** They are two entirely separate stores that happen to often hold the same values, kept in sync only by whoever manually copies them across — Section 16.2 concept 4. A variable can be correct and present in `.env.local`, work perfectly with `npm run dev`, and simply not exist on Vercel at all, with no error anywhere until a deployed function tries to read it and finds nothing (exactly `lib/db.ts`'s `"DATABASE_URL is not set."` error, Section 15.3 Snippet A of this guide's Section 15).
 
 Learn these technologies in **this order** to minimize frustration — each layer assumes fluency in the one above it:
 
@@ -1846,6 +1927,16 @@ Learn these technologies in **this order** to minimize frustration — each laye
         │  you'll internalize *why* good commit hygiene matters much faster
         │  once you have real, meaningful code changes (from every section
         │  above's drills) to actually practice committing.
+        ▼
+16. Vercel & Deployment (Section 16)
+        │  Genuinely last, and only after Section 15: you can't meaningfully
+        │  reason about environment variables failing in production before
+        │  you understand what they're *for* (Section 15's database/auth
+        │  secrets), and you can't appreciate why a build succeeding proves
+        │  almost nothing about runtime correctness (16.4) until you've
+        │  written a route that behaves differently at build time vs.
+        │  request time (Section 5's rendering strategies, Section 15's
+        │  `force-dynamic` homepage).
 ```
 
 **A concrete first three weeks, if you want a schedule:**
@@ -1862,4 +1953,5 @@ Learn these technologies in **this order** to minimize frustration — each laye
 - **Days 12–13:** Section 13 (MDX & the blog) — write a real post as the final drill, not just the suggested ones.
 - **Day 14:** Section 14 (Vitest & Testing) — by now you have real components you actually understand well enough to write meaningful tests for; write one for something you built yourself this week, not just the suggested drills.
 - **Days 15–17:** Section 15 (the CMS) — the longest single stretch on purpose; do all three drills, especially Drill 2 (the full type → validation → UI → action → render round trip), since that's the one that actually ties the whole section together.
+- **Day 18:** Section 16 (Vercel & Deployment) — do Drill 1 and Drill 2 at minimum; Drill 2 in particular (reproducing the leading-space connection-string bug locally) is worth doing even if it feels small, since it's the exact bug this project actually shipped and debugged in production.
 - **From Day 1, for every single change you make in every drill above:** practice Section 9's (Git & GitHub) `git status` → `git diff` → `git add` → `git commit` loop, even on throwaway experiments — the muscle memory matters more than any single command's syntax.
