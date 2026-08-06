@@ -1,19 +1,18 @@
 # Patrick Mulikuza — Personal Portfolio
 
-My personal corner of the internet. A Next.js 16 site covering what I've been working on — frontend projects, data visualizations, hardware experiments, research in ML and physics, and personal writing — with a self-service admin panel so I can update any of it without touching code.
+My personal corner of the internet. A Next.js 16 site covering what I've been working on with a self-service admin panel so I can update any of it without changing the source code.
 
 ## What's inside
 
-- **Hero, About, Services, Portfolio, Contact** — editable from `/admin`, backed by Postgres. Change a headline, add an Experience entry, upload a new project thumbnail, all live, no redeploy.
-- **Personal Writing** — a rich-text article editor (Tiptap) at `/admin/writing`, plus support for simple link-out cards to articles hosted elsewhere. The section disappears entirely from the site when there are no published articles.
-- **Research & Writing** — academic and personal papers, available to read as PDFs. Kept static and outside the CMS on purpose.
+- **Hero, About, Services, Portfolio, Contact** : editable from `/admin`, backed by Postgres. Change a headline, add an Experience entry, upload a new project thumbnail.
+- **Personal Writing** : a rich-text article editor (Tiptap) at `/admin/writing`, plus support for simple link-out cards to articles hosted elsewhere. The section disappears entirely from the site when there are no published articles.
+- **Research & Writing** : academic and personal papers, available to read as PDFs. Kept static and outside the CMS on purpose.
 - **A 3D Everest elevation map, a WebGL hero scene, and generative UI sound** — Plotly, Three.js, and the Web Audio API, all lazy-loaded so they don't cost anything until they're actually on screen.
 
 ## Stack
 
 Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · Framer Motion · PostgreSQL (via `pg`) · Zod · Tiptap · Vercel Blob · Vitest + React Testing Library
 
-See [`MASTER_TECH_GUIDE.md`](./MASTER_TECH_GUIDE.md) for a from-scratch, section-by-section walkthrough of every technology in this repo and why it's used the way it is.
 
 ## Getting started
 

@@ -41,6 +41,7 @@ yarn-error.log*
 
 # personal, local-only per-tech tutorial files (generated from MASTER_TECH_GUIDE.md)
 /tutorials/
+MASTER_TECH_GUIDE.md
 
 # typescript
 *.tsbuildinfo
