@@ -24,7 +24,9 @@ export default function Scene3D() {
 
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-      camera.position.z = 6;
+      camera.position.z = 10;
+      camera.position.y = 1;
+
 
       const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setSize(width, height);

@@ -24,6 +24,7 @@ function ProjectCard({
     <div
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
+      onClick={onEnter}
       className="group relative h-80 w-56 shrink-0 overflow-hidden rounded-xl bg-gradient-to-br from-[#262626] to-[#141414]"
     >
       {project.image ? (
@@ -186,7 +187,7 @@ export default function ComingNext({ content }: { content: ComingNextContent }) 
       <Reveal>
         <h2 className="text-5xl font-semibold text-white sm:text-6xl">Coming Next</h2>
         <p className="mt-3 max-w-xl text-[#ababab]">
-          Projects I&rsquo;m thinking of building next. Hover a card for the full plan.
+          Projects I&rsquo;m thinking of building next. Tap or hover a card for the full plan.
         </p>
       </Reveal>
 

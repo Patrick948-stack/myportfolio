@@ -122,9 +122,10 @@ export default function Navbar() {
           <Image
             src="/images/logo.png"
             alt="Logo"
-            width={180}
-            height={60}
+            width={192}
+            height={109}
             priority
+            className="h-auto w-28 sm:w-36 md:w-[180px]"
           />
         </Link>
       </Magnetic>
@@ -138,7 +139,9 @@ export default function Navbar() {
       </ul>
 
       <button
-        className="relative z-50 text-2xl text-white md:hidden"
+        className={`relative z-50 text-2xl text-white transition-opacity duration-300 md:hidden ${
+          open ? "pointer-events-none opacity-0" : "opacity-100"
+        }`}
         onClick={() => {
           setOpen(true);
           click();

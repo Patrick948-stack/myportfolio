@@ -39,6 +39,9 @@ yarn-error.log*
 # archived pre-Next.js static site + duplicate files, kept locally for review
 /legacy-static-site/
 
+# personal learning curricula reverse-engineered from features, local-only
+/learning/
+
 # personal, local-only per-tech tutorial files (generated from MASTER_TECH_GUIDE.md)
 /tutorials/
 MASTER_TECH_GUIDE.md
@@ -46,3 +49,5 @@ MASTER_TECH_GUIDE.md
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.claude/

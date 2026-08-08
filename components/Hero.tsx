@@ -2,6 +2,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Scene3D from "./Scene3D";
+import RobotEye from "./RobotEye";
 import Magnetic from "./Magnetic";
 import Typewriter from "./Typewriter";
 import { useSound } from "./SoundProvider";
@@ -47,11 +48,18 @@ export default function Hero({ content }: { content: HeroContent }) {
         <Scene3D />
       </div>
 
+      <div
+        aria-hidden
+        className="pointer-events-none absolute bottom-24 right-4 z-10 h-24 w-24 sm:bottom-24 sm:right-[4%] sm:h-32 sm:w-32 md:h-40 md:w-40 lg:h-[180px] lg:w-[180px]"
+      >
+        <RobotEye />
+      </div>
+
       <motion.div
         style={{ y: contentY, opacity: contentOpacity }}
         className="relative z-10 flex h-full flex-col px-[10%]"
       >
-        <div className="mt-[18%] max-w-3xl">
+        <div className="mt-28 max-w-3xl sm:mt-32 md:mt-[18%]">
           <p className="min-h-[1.5em] text-base font-medium tracking-wide text-[#ff004f] sm:text-lg">
             <Typewriter words={content.titles} />
           </p>

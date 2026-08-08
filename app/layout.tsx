@@ -21,7 +21,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${newsreader.variable} h-full`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${newsreader.variable} h-full scroll-pt-32 sm:scroll-pt-40 md:scroll-pt-48`}
+      suppressHydrationWarning
+    >
       <body className="min-h-full bg-[#0a0b0d] text-white antialiased font-sans">
         <SoundProvider>
           <SiteChrome>{children}</SiteChrome>

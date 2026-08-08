@@ -8,6 +8,7 @@ interface TiltCardProps {
   className?: string;
   maxTilt?: number;
   onMouseEnter?: () => void;
+  onClick?: () => void;
   dataCursor?: string;
 }
 
@@ -16,6 +17,7 @@ export default function TiltCard({
   className,
   maxTilt = 10,
   onMouseEnter,
+  onClick,
   dataCursor,
 }: TiltCardProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -48,6 +50,7 @@ export default function TiltCard({
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onMouseEnter={onMouseEnter}
+      onClick={onClick}
       style={{ rotateX, rotateY, transformPerspective: 800 }}
       className={className}
     >

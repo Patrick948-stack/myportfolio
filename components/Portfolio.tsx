@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import Image from "next/image";
 import { FaArrowUpRightFromSquare, FaCode } from "react-icons/fa6";
 import Reveal from "./Reveal";
@@ -10,6 +11,7 @@ import type { PortfolioContent } from "@/types";
 export default function Portfolio({ content }: { content: PortfolioContent }) {
   const { hover, click } = useSound();
   const projects = content.items;
+  const [openId, setOpenId] = useState<string | null>(null);
 
   return (
     <section id="portfolio" className="px-[10%] py-12">
@@ -25,6 +27,9 @@ export default function Portfolio({ content }: { content: PortfolioContent }) {
               maxTilt={8}
               dataCursor={project.href !== "#" ? "view" : undefined}
               onMouseEnter={hover}
+              onClick={() =>
+                setOpenId((prev) => (prev === project.id ? null : project.id))
+              }
               className="group relative overflow-hidden rounded-xl"
             >
               {project.image ? (
@@ -43,7 +48,11 @@ export default function Portfolio({ content }: { content: PortfolioContent }) {
                   </span>
                 </div>
               )}
-              <div className="absolute bottom-0 left-0 flex h-0 w-full flex-col items-center justify-center overflow-hidden rounded-xl bg-gradient-to-t from-[#ff004f] to-black/60 px-6 text-center text-sm transition-all duration-500 group-hover:h-full">
+              <div
+                className={`absolute bottom-0 left-0 flex w-full flex-col items-center justify-center overflow-hidden rounded-xl bg-gradient-to-t from-[#ff004f] to-black/60 px-6 text-center text-sm transition-all duration-500 group-hover:h-full ${
+                  openId === project.id ? "h-full" : "h-0"
+                }`}
+              >
                 <h3 className="mb-3 font-medium leading-snug">{project.title}</h3>
                 <p className="line-clamp-4 text-xs leading-relaxed">{project.description}</p>
                 {project.href !== "#" && (
